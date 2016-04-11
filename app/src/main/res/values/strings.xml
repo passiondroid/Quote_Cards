@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Quote Cards</string>
+    <string name="action_save">Save</string>
+    <string name="title_activity_image">Images</string>
+    <string name="title_text">Your quote will be shown here</string>
+    <string name="title_activity_font">Fonts</string>
+</resources>
