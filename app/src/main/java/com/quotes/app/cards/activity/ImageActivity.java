@@ -311,40 +311,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 try {
                 Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
 
-                //bitmap = BitmapFactory.decodeFile(selectedImagePath); // load
-                // preview image
-                    //image = Bitmap.createScaledBitmap(image, 400, 400, false);
-
-                //imageView.setImageBitmap(image);
-                    imageView.setImageURI(data.getData());
-
-
-
-
-               /* // Get the dimensions of the View
-                int targetW = imageView.getWidth();
-                int targetH = imageView.getHeight();
-
-                // Get the dimensions of the bitmap
-                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                bmOptions.inJustDecodeBounds = true;
-                BitmapFactory.decodeFile(selectedImagePath, bmOptions);
-                int photoW = bmOptions.outWidth;
-                int photoH = bmOptions.outHeight;
-
-                // Determine how much to scale down the image
-                int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
-
-                // Decode the image file into a Bitmap sized to fill the View
-                bmOptions.inJustDecodeBounds = false;
-                bmOptions.inSampleSize = scaleFactor;
-                bmOptions.inPurgeable = true;
-
-                Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath, bmOptions);
-                imageView.setImageBitmap(bitmap);*/
-
-
-
+                imageView.setImageURI(data.getData());
 
                 } catch (FileNotFoundException e) {
                     // handle errors
