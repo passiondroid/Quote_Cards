@@ -259,8 +259,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             createDirectory();
             try {
                 out = new FileOutputStream(new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_PICTURES+"/QuoteCards/IMG_"+timeStamp+".png"));
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
-                // PNG is a lossless format, the compression factor (100) is ignored
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); 
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
