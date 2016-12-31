@@ -5,17 +5,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +22,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,9 +32,6 @@ import com.quotes.app.cards.utils.CustomFontsLoader;
 import com.quotes.app.cards.utils.SharedPreferenceUtils;
 
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,9 +80,14 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
     @Override
     protected void onStart() {
         super.onStart();
-        int imageId = SharedPreferenceUtils.getSelectedImage(this);
-        imageView.setImageResource(imageId);
-
+        if(SharedPreferenceUtils.isImage(this)) {
+            int imageId = SharedPreferenceUtils.getSelectedImageId(this);
+            imageView.setImageResource(imageId);
+        }
+        else {
+            String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+        }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 
@@ -210,7 +206,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
             startDialog();
         }else {
             imageView.setImageResource(backgroundImages.get(position).getImageId());
-            SharedPreferenceUtils.setImage(this, backgroundImages.get(position).getImageId());
+            SharedPreferenceUtils.setImageId(this, backgroundImages.get(position).getImageId());
         }
     }
 
@@ -307,8 +303,9 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 selectedImagePath = c.getString(columnIndex);
+                SharedPreferenceUtils.setImagePath(this,selectedImagePath);
                 c.close();
-                try {
+                /*try {
                 Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
 
                 imageView.setImageURI(data.getData());
@@ -318,7 +315,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 } catch (IOException e) {
                     // handle errors
                 }
-
+                */
             } else {
                 Toast.makeText(getApplicationContext(), "Cancelled",
                         Toast.LENGTH_SHORT).show();

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -40,7 +40,6 @@ import com.quotes.app.cards.utils.SharedPreferenceUtils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changeImageButton.setOnClickListener(this);
         addQuoteButton.setOnClickListener(this);
         fontButton.setOnClickListener(this);
-        SharedPreferenceUtils.setImage(this, R.drawable.alone1);
+        SharedPreferenceUtils.setImageId(this, R.drawable.alone1);
         SharedPreferenceUtils.setFont(this, 0);
         SharedPreferenceUtils.setFontSize(this, 30);
         SharedPreferenceUtils.setTextAlignment(this, 0);
@@ -101,9 +100,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        int imageId = SharedPreferenceUtils.getSelectedImage(this);
-        imageView.setImageResource(imageId);
-
+        if(SharedPreferenceUtils.isImage(this)) {
+            int imageId = SharedPreferenceUtils.getSelectedImageId(this);
+            imageView.setImageResource(imageId);
+        }
+        else {
+            String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+        }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 
