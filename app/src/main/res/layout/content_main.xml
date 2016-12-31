@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.MainActivity"
-    android:fillViewport="true"
-    tools:showIn="@layout/activity_main">
-
-<LinearLayout
     android:id="@+id/imageLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_main">
 
     <FrameLayout
         android:id="@+id/frameLayout"
+        android:layout_above="@id/editLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/image_height"
+        android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:src="@drawable/alone1"
         android:scaleType="fitXY"/>
@@ -50,8 +46,9 @@
 
     <LinearLayout
         android:id="@+id/editLayout"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
         android:gravity="center"
         android:paddingTop="5dp"
         android:background="#C5CAE9"
@@ -97,5 +94,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</LinearLayout>
-</ScrollView>
+</RelativeLayout>
