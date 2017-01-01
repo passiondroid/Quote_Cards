@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,7 @@
     tools:context="com.quotes.app.cards.activity.ImageActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -19,30 +20,24 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
-
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/imageLayout"
+            android:layout_below="@id/appbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/frameLayout"
+                android:layout_above="@id/editLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
+                <com.quotes.app.cards.custom.SquareImageView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/image_height"
+                    android:layout_height="wrap_content"
                     android:id="@+id/imageView"
                     android:scaleType="fitXY"/>
 
@@ -60,7 +55,8 @@
             <LinearLayout
                 android:id="@+id/editLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_height="100dp"
                 android:paddingTop="5dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
@@ -74,8 +70,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </RelativeLayout>
 
-
-</LinearLayout>
+</RelativeLayout>

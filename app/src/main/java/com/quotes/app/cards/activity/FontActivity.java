@@ -1,19 +1,8 @@
 package com.quotes.app.cards.activity;
 
-import android.annotation.TargetApi;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,18 +13,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.quotes.app.cards.R;
 import com.quotes.app.cards.adapter.FontListAdapter;
 import com.quotes.app.cards.utils.CustomFontsLoader;
 import com.quotes.app.cards.utils.SharedPreferenceUtils;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,9 +65,14 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
     @Override
     protected void onStart() {
         super.onStart();
-        int imageId = SharedPreferenceUtils.getSelectedImage(this);
-        imageView.setImageResource(imageId);
-
+        if(SharedPreferenceUtils.isImage(this)) {
+            int imageId = SharedPreferenceUtils.getSelectedImageId(this);
+            imageView.setImageResource(imageId);
+        }
+        else {
+            String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
+            Glide.with(this).load(imagePath).into(imageView);
+        }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 

@@ -5,17 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,10 +20,10 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.quotes.app.cards.R;
 import com.quotes.app.cards.adapter.ImageListAdapter;
 import com.quotes.app.cards.model.BackgroundImage;
@@ -38,9 +31,6 @@ import com.quotes.app.cards.utils.CustomFontsLoader;
 import com.quotes.app.cards.utils.SharedPreferenceUtils;
 
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,7 +50,8 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
     TextView quoteTV;
     private Bitmap bitmap;
     private String selectedImagePath;
-    private String fileName;
+    private String fileDir;
+    Uri outputFileUri=null;
 
 
     @Override
@@ -89,9 +80,14 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
     @Override
     protected void onStart() {
         super.onStart();
-        int imageId = SharedPreferenceUtils.getSelectedImage(this);
-        imageView.setImageResource(imageId);
-
+        if(SharedPreferenceUtils.isImage(this)) {
+            int imageId = SharedPreferenceUtils.getSelectedImageId(this);
+            imageView.setImageResource(imageId);
+        }
+        else {
+            String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
+            Glide.with(this).load(imagePath).into(imageView);
+        }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 
@@ -210,7 +206,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
             startDialog();
         }else {
             imageView.setImageResource(backgroundImages.get(position).getImageId());
-            SharedPreferenceUtils.setImage(this, backgroundImages.get(position).getImageId());
+            SharedPreferenceUtils.setImageId(this, backgroundImages.get(position).getImageId());
         }
     }
 
@@ -238,16 +234,19 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-                        fileName = Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_PICTURES+"/QuoteCards/IMG_"+timeStamp+".png";
-                        //File f = new File(fileName);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT,fileName);
-                        startActivityForResult(intent,CAMERA_REQUEST);
-
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                            fileDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PICTURES + "/QuoteCards/IMG_TEMP_" + timeStamp + ".jpg";
+                            File f = new File(fileDir);
+                            outputFileUri= Uri.fromFile(f);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                            startActivityForResult(intent, CAMERA_REQUEST);
+                        }
                     }
                 });
         myAlertDialog.show();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -259,8 +258,19 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
 
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
 
-            File f = new File(fileName);
-
+            Toast.makeText(ImageActivity.this,"Saved",Toast.LENGTH_SHORT).show();
+            if(outputFileUri!=null)
+            {
+//                String[] filePath = { MediaStore.Images.Media.DATA };
+//                Cursor c = getContentResolver().query(outputFileUri, filePath,
+//                        null, null, null);
+//                c.moveToFirst();
+//                int columnIndex = c.getColumnIndex(filePath[0]);
+//                selectedImagePath = c.getString(columnIndex);
+                SharedPreferenceUtils.setImagePath(this,fileDir);
+               // c.close();
+            }
+/*
             if (!f.exists()) {
                 Toast.makeText(getBaseContext(),"Error while capturing image", Toast.LENGTH_LONG).show();
                 return;
@@ -296,7 +306,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
+*/
         } else if (resultCode == RESULT_OK && requestCode == GALLERY_PICTURE) {
             if (data != null) {
 
@@ -307,8 +317,9 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 selectedImagePath = c.getString(columnIndex);
+                SharedPreferenceUtils.setImagePath(this,selectedImagePath);
                 c.close();
-                try {
+                /*try {
                 Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
 
                 imageView.setImageURI(data.getData());
@@ -318,7 +329,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 } catch (IOException e) {
                     // handle errors
                 }
-
+                */
             } else {
                 Toast.makeText(getApplicationContext(), "Cancelled",
                         Toast.LENGTH_SHORT).show();
