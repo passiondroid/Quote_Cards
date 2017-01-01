@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.quotes.app.cards.R;
 import com.quotes.app.cards.adapter.ImageListAdapter;
 import com.quotes.app.cards.model.BackgroundImage;
@@ -85,7 +86,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
         }
         else {
             String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+            Glide.with(this).load(imagePath).into(imageView);
         }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));

@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.quotes.app.cards.R;
 import com.quotes.app.cards.adapter.FontListAdapter;
 import com.quotes.app.cards.utils.CustomFontsLoader;
@@ -70,7 +71,7 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
         }
         else {
             String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+            Glide.with(this).load(imagePath).into(imageView);
         }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));

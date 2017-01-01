@@ -32,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.quotes.app.cards.R;
 import com.quotes.app.cards.utils.CustomFontsLoader;
 import com.quotes.app.cards.utils.RuntimePermissionHelper;
@@ -106,7 +107,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else {
             String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
+            Glide.with(this).load(imagePath).into(imageView);
+            //imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
         }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
@@ -179,12 +181,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 frameLayout.setDrawingCacheEnabled(true);
                 frameLayout.buildDrawingCache();
                 Bitmap bitmap = frameLayout.getDrawingCache();
-                if(null != saveImageTask && saveImageTask.getStatus().equals(AsyncTask.Status.FINISHED)) {
-                    saveImageTask.execute(bitmap);
-                }else {
+//                if(null != saveImageTask && saveImageTask.getStatus().equals(AsyncTask.Status.FINISHED)) {
+//                    saveImageTask.execute(bitmap);
+//                }else {
                     saveImageTask = new SaveImageTask();
                     saveImageTask.execute(bitmap);
-                }
+                //}
                 return true;
 
             default:
