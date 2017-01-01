@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -51,7 +49,8 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
     TextView quoteTV;
     private Bitmap bitmap;
     private String selectedImagePath;
-    private String fileName;
+    private String fileDir;
+    Uri outputFileUri=null;
 
 
     @Override
@@ -234,16 +233,19 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
-                        fileName = Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_PICTURES+"/QuoteCards/IMG_"+timeStamp+".png";
-                        //File f = new File(fileName);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT,fileName);
-                        startActivityForResult(intent,CAMERA_REQUEST);
-
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                            fileDir = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_PICTURES + "/QuoteCards/IMG_TEMP_" + timeStamp + ".jpg";
+                            File f = new File(fileDir);
+                            outputFileUri= Uri.fromFile(f);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+                            startActivityForResult(intent, CAMERA_REQUEST);
+                        }
                     }
                 });
         myAlertDialog.show();
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -255,8 +257,19 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
 
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
 
-            File f = new File(fileName);
-
+            Toast.makeText(ImageActivity.this,"Saved",Toast.LENGTH_SHORT).show();
+            if(outputFileUri!=null)
+            {
+//                String[] filePath = { MediaStore.Images.Media.DATA };
+//                Cursor c = getContentResolver().query(outputFileUri, filePath,
+//                        null, null, null);
+//                c.moveToFirst();
+//                int columnIndex = c.getColumnIndex(filePath[0]);
+//                selectedImagePath = c.getString(columnIndex);
+                SharedPreferenceUtils.setImagePath(this,fileDir);
+               // c.close();
+            }
+/*
             if (!f.exists()) {
                 Toast.makeText(getBaseContext(),"Error while capturing image", Toast.LENGTH_LONG).show();
                 return;
@@ -292,7 +305,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
+*/
         } else if (resultCode == RESULT_OK && requestCode == GALLERY_PICTURE) {
             if (data != null) {
 
