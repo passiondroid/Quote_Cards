@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:hint="Enter the quote"/>
+        android:hint="Enter your quote"/>
     </android.support.design.widget.TextInputLayout>
    <!-- <Button
         android:id="@+id/okQuoteDialog"

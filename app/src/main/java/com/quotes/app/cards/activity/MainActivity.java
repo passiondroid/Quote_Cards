@@ -1,7 +1,6 @@
 package com.quotes.app.cards.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -166,6 +164,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         View view=inflater.inflate(R.layout.add_quote_dialog, null);
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
+
+        View empty=new View(MainActivity.this);
+        builder.setView(empty);
+        empty.requestFocus();
         builder.setView(view);
         quoteText =(EditText) view.findViewById(R.id.addQouteEditText);
         if(changed) {
@@ -178,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onClick(DialogInterface dialog, int id) {
                         String quote= quoteText.getText().toString().trim();
                         if(quote.length()<1){
-                            Toast.makeText(MainActivity.this,"No text Entered",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,"No quote entered",Toast.LENGTH_SHORT).show();
                             }
                         else{
                             quoteTV.setText(quote);
@@ -192,9 +194,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
         builder.create().show();
-        quoteText.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     @Override
@@ -344,10 +343,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             frameLayout.destroyDrawingCache();
             Toast.makeText(MainActivity.this,"Image has been saved in SD Card",Toast.LENGTH_SHORT).show();
             scan();
+            postSaveDialogBox();
         }
 
     }
 
+    public void postSaveDialogBox()
+    {
+        final String[] optionsList =new String[] {"Share","View in gallery"};
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this);
+        builder.setTitle("What next?");
+        builder.setItems(optionsList,new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,int which) {
+                        switch(which) {
+                            case 0 :
+                                Toast.makeText(MainActivity.this,"You Selected"+optionsList[which],Toast.LENGTH_SHORT).show();
+                                break;
+                            case 1:
+                                Toast.makeText(MainActivity.this,"You Selected"+optionsList[which],Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
     private void scan() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
         {
