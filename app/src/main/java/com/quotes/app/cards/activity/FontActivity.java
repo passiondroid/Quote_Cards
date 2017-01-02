@@ -33,8 +33,7 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
     @Bind(R.id.sizeMinus)ImageButton sizeMinus;
     @Bind(R.id.quoteTV)TextView quoteTV;
     @Bind(R.id.fontLayout) View fontLayoutView;
-    //View fontLayoutView= findViewById(R.id.fontLayout);
-    int size;
+    private int size;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,8 +135,6 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
             }
             SharedPreferenceUtils.setTextAlignment(this, SharedPreferenceUtils.TEXT_ALIGNMENT_END);
             quoteTV.setText(quoteTV.getText().toString().trim());
-//            quoteTV.invalidate();
-//            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.rightIV){
             quoteTV.setGravity(Gravity.START);
             if(Build.VERSION.SDK_INT >=17) {
@@ -145,8 +142,6 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
             }
             SharedPreferenceUtils.setTextAlignment(this,SharedPreferenceUtils.TEXT_ALIGNMENT_START);
             quoteTV.setText(quoteTV.getText().toString().trim());
-//            quoteTV.invalidate();
-//            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.centerIV){
             quoteTV.setGravity(Gravity.CENTER);
             if(Build.VERSION.SDK_INT >=17) {
@@ -154,8 +149,6 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
             }
             SharedPreferenceUtils.setTextAlignment(this,SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER);
             quoteTV.setText(quoteTV.getText().toString().trim());
-//            quoteTV.invalidate();
-//            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.sizePlus) {
             if (size < 45){
                 quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, ++size);
