@@ -1,11 +1,10 @@
 package com.quotes.app.cards.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,17 +13,16 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -54,11 +52,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.changeImageButton)LinearLayout changeImageButton;
     @Bind(R.id.fontButton)LinearLayout fontButton;
     @Bind(R.id.addQuoteButton)LinearLayout addQuoteButton;
-    @Bind(R.id.quoteText)EditText quoteText;
+    //@Bind(R.id.quoteText)EditText quoteText;
+    EditText quoteText;
     @Bind(R.id.frameLayout)FrameLayout frameLayout;
     @Bind(R.id.editLayout)LinearLayout editLayout;
     @Bind(R.id.imageView)ImageView imageView;
     @Bind(R.id.quoteTV)TextView quoteTV;
+    private boolean changed;
     private SaveImageTask saveImageTask;
 
     @Override
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferenceUtils.setFont(this, 0);
         SharedPreferenceUtils.setFontSize(this, 30);
         SharedPreferenceUtils.setTextAlignment(this, 0);
-        quoteText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        /*quoteText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     quoteTV.setText(quoteText.getText().toString());
@@ -84,9 +84,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
-
+*/
         requestPermissions();
     }
+
 
     private void requestPermissions() {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
 
     @Override
     protected void onStart() {
@@ -122,19 +124,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setAlignment(int alignment) {
         switch (alignment){
-            case 0:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_START:
                 quoteTV.setGravity(Gravity.START);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 }
                 break;
-            case 1:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_END:
                 quoteTV.setGravity(Gravity.END);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 }
                 break;
-            case 2:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER:
                 quoteTV.setGravity(Gravity.CENTER);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -142,6 +144,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+
+    public void showChangeLangDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        // Get the layout inflater
+        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+        View view=inflater.inflate(R.layout.add_quote_dialog, null);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        builder.setView(view);
+        quoteText =(EditText) view.findViewById(R.id.addQouteEditText);
+        if(changed) {
+            quoteText.setText(quoteTV.getText().toString());
+        }
+            // Add action buttons
+                builder.setCancelable(false);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        String quote= quoteText.getText().toString().trim();
+                        if(quote.length()<1){
+                            Toast.makeText(MainActivity.this,"No text Entered",Toast.LENGTH_SHORT).show();
+                            }
+                        else{
+                            quoteTV.setText(quote);
+                            changed=true;
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder.create().show();
     }
 
     @Override
@@ -153,10 +191,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("text",text);
             ActivityCompat.startActivity(this,intent,options.toBundle());
         }else if(v.getId() == R.id.addQuoteButton){
+            showChangeLangDialog();
+            /*
             quoteText.setVisibility(View.VISIBLE);
             quoteText.requestFocus();
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(quoteText, InputMethodManager.SHOW_IMPLICIT);
+        */
         }else if(v.getId() == R.id.fontButton){
             Intent intent = new Intent(this, FontActivity.class);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
@@ -177,7 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                quoteText.setVisibility(View.GONE);
+                //quoteText.setVisibility(View.GONE);
                 frameLayout.setDrawingCacheEnabled(true);
                 frameLayout.buildDrawingCache();
                 Bitmap bitmap = frameLayout.getDrawingCache();
