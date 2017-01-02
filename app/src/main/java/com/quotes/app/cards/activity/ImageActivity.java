@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -100,19 +99,19 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
 
     private void setAlignment(int alignment) {
         switch (alignment){
-            case 0:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_START:
                 quoteTV.setGravity(Gravity.START);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 }
                 break;
-            case 1:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_END:
                 quoteTV.setGravity(Gravity.END);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 }
                 break;
-            case 2:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER:
                 quoteTV.setGravity(Gravity.CENTER);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);

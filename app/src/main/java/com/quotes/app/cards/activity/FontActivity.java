@@ -1,6 +1,5 @@
 package com.quotes.app.cards.activity;
 
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +32,8 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
     @Bind(R.id.sizePlus)ImageButton sizePlus;
     @Bind(R.id.sizeMinus)ImageButton sizeMinus;
     @Bind(R.id.quoteTV)TextView quoteTV;
+    @Bind(R.id.fontLayout) View fontLayoutView;
+    //View fontLayoutView= findViewById(R.id.fontLayout);
     int size;
 
     @Override
@@ -87,19 +88,19 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
 
     private void setAlignment(int alignment) {
         switch (alignment){
-            case 0:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_START:
                 quoteTV.setGravity(Gravity.START);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 }
                 break;
-            case 1:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_END:
                 quoteTV.setGravity(Gravity.END);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 }
                 break;
-            case 2:
+            case SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER:
                 quoteTV.setGravity(Gravity.CENTER);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -133,20 +134,28 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
             if(Build.VERSION.SDK_INT >=17) {
                 quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             }
-
             SharedPreferenceUtils.setTextAlignment(this, SharedPreferenceUtils.TEXT_ALIGNMENT_END);
+            quoteTV.setText(quoteTV.getText().toString().trim());
+//            quoteTV.invalidate();
+//            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.rightIV){
             quoteTV.setGravity(Gravity.START);
             if(Build.VERSION.SDK_INT >=17) {
                 quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             }
             SharedPreferenceUtils.setTextAlignment(this,SharedPreferenceUtils.TEXT_ALIGNMENT_START);
+            quoteTV.setText(quoteTV.getText().toString().trim());
+//            quoteTV.invalidate();
+//            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.centerIV){
             quoteTV.setGravity(Gravity.CENTER);
             if(Build.VERSION.SDK_INT >=17) {
                 quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             }
             SharedPreferenceUtils.setTextAlignment(this,SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER);
+            quoteTV.setText(quoteTV.getText().toString().trim());
+//            quoteTV.invalidate();
+//            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.sizePlus) {
             if (size < 45){
                 quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, ++size);
