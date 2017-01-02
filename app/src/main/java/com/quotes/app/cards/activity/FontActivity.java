@@ -134,8 +134,8 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
             if(Build.VERSION.SDK_INT >=17) {
                 quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             }
-
             SharedPreferenceUtils.setTextAlignment(this, SharedPreferenceUtils.TEXT_ALIGNMENT_END);
+            quoteTV.setText(quoteTV.getText().toString().trim());
 //            quoteTV.invalidate();
 //            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.rightIV){
@@ -144,6 +144,7 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
                 quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             }
             SharedPreferenceUtils.setTextAlignment(this,SharedPreferenceUtils.TEXT_ALIGNMENT_START);
+            quoteTV.setText(quoteTV.getText().toString().trim());
 //            quoteTV.invalidate();
 //            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.centerIV){
@@ -152,6 +153,7 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
                 quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             }
             SharedPreferenceUtils.setTextAlignment(this,SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER);
+            quoteTV.setText(quoteTV.getText().toString().trim());
 //            quoteTV.invalidate();
 //            fontLayoutView.invalidate();
         }else if(v.getId()==R.id.sizePlus) {

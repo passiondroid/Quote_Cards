@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/imageLayout"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.quotes.app.cards.activity.ImageActivity">
@@ -23,7 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
-            android:id="@+id/imageLayout"
+
             android:layout_below="@id/appbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -1,6 +1,7 @@
 package com.quotes.app.cards.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -122,6 +124,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setAlignment(alignment);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int alignment = SharedPreferenceUtils.getTextAlignment(this);
+        setAlignment(alignment);
+    }
+
     private void setAlignment(int alignment) {
         switch (alignment){
             case SharedPreferenceUtils.TEXT_ALIGNMENT_START:
@@ -129,18 +138,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
                 }
+                quoteTV.setText(quoteTV.getText().toString().trim());
                 break;
             case SharedPreferenceUtils.TEXT_ALIGNMENT_END:
                 quoteTV.setGravity(Gravity.END);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
                 }
+                quoteTV.setText(quoteTV.getText().toString().trim());
                 break;
             case SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER:
                 quoteTV.setGravity(Gravity.CENTER);
                 if(Build.VERSION.SDK_INT >=17) {
                     quoteTV.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 }
+                quoteTV.setText(quoteTV.getText().toString().trim());
                 break;
         }
 
@@ -180,6 +192,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
         builder.create().show();
+        quoteText.requestFocus();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     @Override
@@ -228,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     saveImageTask = new SaveImageTask();
                     saveImageTask.execute(bitmap);
                 //}
+
                 return true;
 
             default:
