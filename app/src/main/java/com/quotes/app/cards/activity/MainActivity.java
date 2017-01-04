@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.changeImageButton)LinearLayout changeImageButton;
     @Bind(R.id.fontButton)LinearLayout fontButton;
     @Bind(R.id.addQuoteButton)LinearLayout addQuoteButton;
-    //@Bind(R.id.quoteText)EditText quoteText;
     EditText quoteText;
     @Bind(R.id.frameLayout)FrameLayout frameLayout;
     @Bind(R.id.editLayout)LinearLayout editLayout;
@@ -75,16 +74,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferenceUtils.setFont(this, 0);
         SharedPreferenceUtils.setFontSize(this, 30);
         SharedPreferenceUtils.setTextAlignment(this, 0);
-        /*quoteText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
-                    quoteTV.setText(quoteText.getText().toString());
-                }
-                quoteText.setVisibility(View.GONE);
-                return false;
-            }
-        });
-*/
         requestPermissions();
     }
 
@@ -110,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else {
             String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
             Glide.with(this).load(imagePath).into(imageView);
-            //imageView.setImageBitmap(BitmapFactory.decodeFile(imagePath));
         }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
@@ -159,12 +147,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void showChangeLangDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        // Get the layout inflater
         LayoutInflater inflater = MainActivity.this.getLayoutInflater();
         View view=inflater.inflate(R.layout.add_quote_dialog, null);
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-
         View empty=new View(MainActivity.this);
         builder.setView(empty);
         empty.requestFocus();
@@ -173,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(changed) {
             quoteText.setText(quoteTV.getText().toString());
         }
-            // Add action buttons
                 builder.setCancelable(false);
                 builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
@@ -206,12 +189,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ActivityCompat.startActivity(this,intent,options.toBundle());
         }else if(v.getId() == R.id.addQuoteButton){
             showChangeLangDialog();
-            /*
-            quoteText.setVisibility(View.VISIBLE);
-            quoteText.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(quoteText, InputMethodManager.SHOW_IMPLICIT);
-        */
         }else if(v.getId() == R.id.fontButton){
             Intent intent = new Intent(this, FontActivity.class);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
@@ -341,35 +318,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
             frameLayout.destroyDrawingCache();
-            Toast.makeText(MainActivity.this,"Image has been saved in SD Card",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this,"Image has been saved in SD Card",Toast.LENGTH_SHORT).show();
             scan();
             postSaveDialogBox();
         }
-
     }
 
     public void postSaveDialogBox()
     {
-        final String[] optionsList =new String[] {"Share","View in gallery"};
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(this);
-        builder.setTitle("What next?");
-        builder.setItems(optionsList,new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog,int which) {
-                        switch(which) {
-                            case 0 :
-                                Toast.makeText(MainActivity.this,"You Selected"+optionsList[which],Toast.LENGTH_SHORT).show();
-                                break;
-                            case 1:
-                                Toast.makeText(MainActivity.this,"You Selected"+optionsList[which],Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View view = layoutInflater.inflate(R.layout.on_save_dialog_box, null);
+        final AlertDialog alertD = new AlertDialog.Builder(this).create();
+        alertD.setTitle("Image Saved");
+        ImageView share = (ImageView) view.findViewById(R.id.shareMain);
+        ImageView viewGallery = (ImageView) view.findViewById(R.id.viewMain);
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"You Selected Share",Toast.LENGTH_SHORT).show();
+                alertD.dismiss();
+            }
+        });
+        viewGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"You Selected View in gallery.",Toast.LENGTH_SHORT).show();
+                alertD.dismiss();
+            }
+        });
+        alertD.setView(view);
+        alertD.show();
     }
     private void scan() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
