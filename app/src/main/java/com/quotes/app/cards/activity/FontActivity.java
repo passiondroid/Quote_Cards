@@ -177,7 +177,7 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
         else if(v.getId()==R.id.quoteTV){
             new ChromaDialog.Builder()
                     .initialColor(SharedPreferenceUtils.getTextColor(this))
-                    .colorMode(ColorMode.RGB)
+                    .colorMode(ColorMode.ARGB)
                     .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL;
                     .onColorSelected(new OnColorSelectedListener() {
                         @Override public void onColorSelected(int newColor) {
