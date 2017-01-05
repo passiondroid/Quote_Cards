@@ -46,9 +46,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
-                android:layout_margin="15dp"
+                android:layout_margin="5dp"
                 android:textSize="30sp"
-                android:text="@string/title_text"/>
+                android:padding="10dp"
+                android:text="@string/title_text"
+                android:background="@drawable/rectangle_border"
+                />
 
         </FrameLayout>
 

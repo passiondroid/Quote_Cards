@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.quoteTV)TextView quoteTV;
     private boolean changed;
     private SaveImageTask saveImageTask;
+    String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +72,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         changeImageButton.setOnClickListener(this);
         addQuoteButton.setOnClickListener(this);
         fontButton.setOnClickListener(this);
+        quoteTV.setOnClickListener(this);
         SharedPreferenceUtils.setImageId(this, R.drawable.alone1);
         SharedPreferenceUtils.setFont(this, 0);
         SharedPreferenceUtils.setFontSize(this, 30);
         SharedPreferenceUtils.setTextAlignment(this, 0);
+        SharedPreferenceUtils.setTextColor(this,Color.WHITE);
+        quoteTV.setText(getResources().getString(R.string.title_text));
         requestPermissions();
     }
-
 
     private void requestPermissions() {
         if (Build.VERSION.SDK_INT >= 23) {
@@ -105,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int fontSize = SharedPreferenceUtils.getFontSize(this);
         quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+
+        int textColor=SharedPreferenceUtils.getTextColor(MainActivity.this);
+        quoteTV.setTextColor(textColor);
 
         int alignment = SharedPreferenceUtils.getTextAlignment(this);
         setAlignment(alignment);
@@ -192,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else if(v.getId() == R.id.fontButton){
             Intent intent = new Intent(this, FontActivity.class);
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
-            String text = quoteTV.getText().toString();
+            text = quoteTV.getText().toString();
             intent.putExtra("text",text);
             ActivityCompat.startActivity(this, intent, options.toBundle());
         }
