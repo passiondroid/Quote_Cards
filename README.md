@@ -7,3 +7,9 @@
 An Android App to add quotes over images.
 
 ![alt text](https://s30.postimg.org/x6jdjycch/Quote_Cards.png)
+
+## Contributing
+
+Please fork this repository and contribute back using pull requests.
+
+Any contributions, large or small, major features, bug fixes, additional language translations, unit/integration tests are welcomed and appreciated but will be thoroughly reviewed and discussed.
