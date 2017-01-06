@@ -6,7 +6,7 @@
 
 An Android App to add quotes over images.
 
-![alt text](https://s30.postimg.org/x6jdjycch/Quote_Cards.png)
+![alt text](https://s30.postimg.org/54km4rze9/Quote_Cards.png)
 
 ## Contributing
 
