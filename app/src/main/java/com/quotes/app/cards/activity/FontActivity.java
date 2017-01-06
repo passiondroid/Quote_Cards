@@ -15,6 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.pavelsikun.vintagechroma.ChromaDialog;
+import com.pavelsikun.vintagechroma.IndicatorMode;
+import com.pavelsikun.vintagechroma.OnColorSelectedListener;
+import com.pavelsikun.vintagechroma.colormode.ColorMode;
 import com.quotes.app.cards.R;
 import com.quotes.app.cards.adapter.FontListAdapter;
 import com.quotes.app.cards.utils.CustomFontsLoader;
@@ -54,12 +58,12 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
         leftIV.setOnClickListener(this);
         centerIV.setOnClickListener(this);
         rightIV.setOnClickListener(this);
         sizePlus.setOnClickListener(this);
         sizeMinus.setOnClickListener(this);
+        quoteTV.setOnClickListener(this);
     }
 
     @Override
@@ -75,6 +79,9 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
         }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
+
+        int textColor=SharedPreferenceUtils.getTextColor(FontActivity.this);
+        quoteTV.setTextColor(textColor);
 
         int fontSize = SharedPreferenceUtils.getFontSize(this);
         quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
@@ -159,6 +166,20 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
                 quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, --size);
                 SharedPreferenceUtils.setFontSize(this, size);
             }
+        }
+        else if(v.getId()==R.id.quoteTV){
+            new ChromaDialog.Builder()
+                    .initialColor(SharedPreferenceUtils.getTextColor(this))
+                    .colorMode(ColorMode.ARGB)
+                    .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL;
+                    .onColorSelected(new OnColorSelectedListener() {
+                        @Override public void onColorSelected(int newColor) {
+                            quoteTV.setTextColor(newColor);
+                            SharedPreferenceUtils.setTextColor(FontActivity.this,newColor);
+                        }
+                    })
+                    .create()
+                    .show(getSupportFragmentManager(),"colorPicker");
         }
     }
 

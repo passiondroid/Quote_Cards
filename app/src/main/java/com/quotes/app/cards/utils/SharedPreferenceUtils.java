@@ -3,6 +3,7 @@ package com.quotes.app.cards.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.view.View;
 
 public class SharedPreferenceUtils {
@@ -18,6 +19,20 @@ public class SharedPreferenceUtils {
 	public static final int TEXT_ALIGNMENT_START = 0;
 	public static final int TEXT_ALIGNMENT_END = 1;
 	public static final int TEXT_ALIGNMENT_CENTER = 2;
+	public static final String TEXT_COLOR = "TEXT_COLOR";
+
+	public static int getTextColor(Context context) {
+		SharedPreferences pref = context.getSharedPreferences(QUOTE_CARDS, Context.MODE_PRIVATE);
+		return pref.getInt(TEXT_COLOR, Color.WHITE);
+	}
+
+	public static void setTextColor(Context context,int color) {
+		SharedPreferences pref = context.getSharedPreferences(QUOTE_CARDS, Context.MODE_PRIVATE);
+		Editor editor = pref.edit();
+		editor.putInt(TEXT_COLOR, color);
+		editor.commit();
+	}
+
 
 	public static boolean isImage(Context context) {
 		SharedPreferences pref = context.getSharedPreferences(QUOTE_CARDS, Context.MODE_PRIVATE);

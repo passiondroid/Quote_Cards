@@ -28,5 +28,7 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.pavelsikun:vintage-chroma:1.5'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
 
 }

@@ -90,6 +90,9 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 
+        int textColor=SharedPreferenceUtils.getTextColor(ImageActivity.this);
+        quoteTV.setTextColor(textColor);
+
         int fontSize = SharedPreferenceUtils.getFontSize(this);
         quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
