@@ -1,5 +1,6 @@
 package com.quotes.app.cards.activity;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -38,6 +39,7 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
     @Bind(R.id.quoteTV)TextView quoteTV;
     @Bind(R.id.fontLayout) View fontLayoutView;
     private int size;
+    public final int color = -1506326529;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +82,12 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 
-        int textColor=SharedPreferenceUtils.getTextColor(FontActivity.this);
-        quoteTV.setTextColor(textColor);
+        if(SharedPreferenceUtils.getTextColor(FontActivity.this)==0){
+            quoteTV.setTextColor(Color.WHITE);
+        }else{
+            int textColor=SharedPreferenceUtils.getTextColor(FontActivity.this);
+            quoteTV.setTextColor(textColor);
+        }
 
         int fontSize = SharedPreferenceUtils.getFontSize(this);
         quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
@@ -168,8 +174,12 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
             }
         }
         else if(v.getId()==R.id.quoteTV){
+            int initialColor = SharedPreferenceUtils.getTextColor(FontActivity.this);
+            if(initialColor==0){
+                initialColor = color;
+            }
             new ChromaDialog.Builder()
-                    .initialColor(SharedPreferenceUtils.getTextColor(this))
+                    .initialColor(initialColor)
                     .colorMode(ColorMode.ARGB)
                     .indicatorMode(IndicatorMode.HEX) //HEX or DECIMAL;
                     .onColorSelected(new OnColorSelectedListener() {

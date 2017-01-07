@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferenceUtils.setFont(this, 0);
         SharedPreferenceUtils.setFontSize(this, 30);
         SharedPreferenceUtils.setTextAlignment(this, 0);
-        SharedPreferenceUtils.setTextColor(this,Color.WHITE);
         quoteTV.setText(getResources().getString(R.string.title_text));
         requestPermissions();
     }
@@ -110,8 +109,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int fontSize = SharedPreferenceUtils.getFontSize(this);
         quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
 
-        int textColor=SharedPreferenceUtils.getTextColor(MainActivity.this);
-        quoteTV.setTextColor(textColor);
+        if(SharedPreferenceUtils.getTextColor(MainActivity.this)==0){
+            quoteTV.setTextColor(Color.WHITE);
+        }else{
+            int textColor=SharedPreferenceUtils.getTextColor(MainActivity.this);
+            quoteTV.setTextColor(textColor);
+        }
+
 
         int alignment = SharedPreferenceUtils.getTextAlignment(this);
         setAlignment(alignment);
@@ -260,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Map<String, Integer> perms = new HashMap<String, Integer>();
+        Map<String, Integer> perms = new HashMap<>();
 
         // Fill with results*/
         for (int i = 0; i < permissions.length; i++)

@@ -8,6 +8,12 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_main">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/frameLayout"
+        android:background="@android:color/black"/>
+
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_above="@id/editLayout"

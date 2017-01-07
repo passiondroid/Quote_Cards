@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -90,8 +91,12 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 
-        int textColor=SharedPreferenceUtils.getTextColor(ImageActivity.this);
-        quoteTV.setTextColor(textColor);
+        if(SharedPreferenceUtils.getTextColor(ImageActivity.this)==0){
+            quoteTV.setTextColor(Color.WHITE);
+        }else{
+            int textColor=SharedPreferenceUtils.getTextColor(ImageActivity.this);
+            quoteTV.setTextColor(textColor);
+        }
 
         int fontSize = SharedPreferenceUtils.getFontSize(this);
         quoteTV.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
@@ -263,52 +268,9 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
             Toast.makeText(ImageActivity.this,"Saved",Toast.LENGTH_SHORT).show();
             if(outputFileUri!=null)
             {
-//                String[] filePath = { MediaStore.Images.Media.DATA };
-//                Cursor c = getContentResolver().query(outputFileUri, filePath,
-//                        null, null, null);
-//                c.moveToFirst();
-//                int columnIndex = c.getColumnIndex(filePath[0]);
-//                selectedImagePath = c.getString(columnIndex);
                 SharedPreferenceUtils.setImagePath(this,fileDir);
-               // c.close();
-            }
-/*
-            if (!f.exists()) {
-                Toast.makeText(getBaseContext(),"Error while capturing image", Toast.LENGTH_LONG).show();
-                return;
             }
 
-            try {
-                bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
-                bitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, true);
-                int rotate = 0;
-                try {
-                    ExifInterface exif = new ExifInterface(f.getAbsolutePath());
-                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL);
-                    switch (orientation) {
-                        case ExifInterface.ORIENTATION_ROTATE_270:
-                            rotate = 270;
-                            break;
-                        case ExifInterface.ORIENTATION_ROTATE_180:
-                            rotate = 180;
-                            break;
-                        case ExifInterface.ORIENTATION_ROTATE_90:
-                            rotate = 90;
-                            break;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                Matrix matrix = new Matrix();
-                matrix.postRotate(rotate);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),bitmap.getHeight(), matrix, true);
-                imageView.setImageBitmap(bitmap);
-                //storeImageTosdCard(bitmap);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-*/
         } else if (resultCode == RESULT_OK && requestCode == GALLERY_PICTURE) {
             if (data != null) {
 

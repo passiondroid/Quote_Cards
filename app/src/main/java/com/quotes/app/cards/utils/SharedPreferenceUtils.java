@@ -23,7 +23,7 @@ public class SharedPreferenceUtils {
 
 	public static int getTextColor(Context context) {
 		SharedPreferences pref = context.getSharedPreferences(QUOTE_CARDS, Context.MODE_PRIVATE);
-		return pref.getInt(TEXT_COLOR, Color.WHITE);
+		return pref.getInt(TEXT_COLOR, 0);
 	}
 
 	public static void setTextColor(Context context,int color) {
