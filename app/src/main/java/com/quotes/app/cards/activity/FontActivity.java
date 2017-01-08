@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,6 +54,8 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
 
         String text = getIntent().getStringExtra("text");
         quoteTV.setText(text);
+
+        //quoteTV.setOnTouchListener(this);
 
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.fontList);
         FontListAdapter adapter = new FontListAdapter(this);
@@ -194,4 +198,32 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
     }
 
 
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) v.getLayoutParams();
+//
+//        switch(event.getAction())
+//        {
+//            case MotionEvent.ACTION_MOVE:
+//            {
+//                params.topMargin = (int)event.getRawY() - (v.getHeight());
+//                params.leftMargin = (int)event.getRawX() - (v.getWidth()/2);
+//                v.setLayoutParams(params);
+//                break;
+//            }
+//            case MotionEvent.ACTION_UP:
+//            {
+//                params.topMargin = (int)event.getRawY() - (v.getHeight());
+//                params.leftMargin = (int)event.getRawX() - (v.getWidth()/2);
+//                v.setLayoutParams(params);
+//                break;
+//            }
+//            case MotionEvent.ACTION_DOWN:
+//            {
+//                v.setLayoutParams(params);
+//                break;
+//            }
+//        }
+//        return false;
+//    }
 }

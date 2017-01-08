@@ -56,7 +56,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.View
             Bitmap bitmap = Util.decodeSampledBitmapFromResource(mContext.getResources(), backgroundImage.getImageId(), 100, 100);
             imageView.setImageBitmap(bitmap);
         }else if(position==0){
-            imageView.setImageResource(R.drawable.ic_camera_enhance_black_24dp);
+            imageView.setImageResource(R.drawable.ic_camera);
         }
 
     }
