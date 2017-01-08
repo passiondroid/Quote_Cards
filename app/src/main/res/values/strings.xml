@@ -2,7 +2,7 @@
     <string name="app_name">Quote Cards</string>
     <string name="action_save">Save</string>
     <string name="title_activity_image">Images</string>
-    <string name="title_text">Your quote will be shown here</string>
+    <string name="title_text">DO WHAT IS RIGHT, NOT WHAT IS EASY</string>
     <string name="title_activity_font">Fonts</string>
     <string name="title_activity_crop">Crop</string>
 </resources>

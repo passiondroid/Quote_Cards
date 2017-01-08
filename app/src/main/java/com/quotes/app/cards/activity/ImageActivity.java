@@ -51,11 +51,8 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
 
     @Bind(R.id.quoteTV)
     TextView quoteTV;
-    private Bitmap bitmap;
-    private String selectedImagePath;
     private String fileDir;
     Uri outputFileUri=null;
-    private boolean isCroppedResult = false;
     public static final int CROP_REQUEST_CODE = 20;
     private static final String TAG = "ImageActivity";
 
@@ -86,15 +83,13 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
     @Override
     protected void onStart() {
         super.onStart();
-        //if(!isCroppedResult) {
-            if (SharedPreferenceUtils.isImage(this)) {
-                int imageId = SharedPreferenceUtils.getSelectedImageId(this);
-                imageView.setImageResource(imageId);
-            } else {
-                String imagePath = SharedPreferenceUtils.getSelectedImagePath(this);
-                Glide.with(this).load(imagePath).into(imageView);
-            }
-        //}
+        if (SharedPreferenceUtils.isImage(this)) {
+            int imageId = SharedPreferenceUtils.getSelectedImageId(this);
+            imageView.setImageResource(imageId);
+        } else {
+            String imagePath = SharedPreferenceUtils.getSelectedImagePath(this);
+            Glide.with(this).load(imagePath).into(imageView);
+        }
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 
@@ -137,12 +132,12 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
 
     private void generateBackgroundImageList() {
         backgroundImages = new ArrayList<>();
-        BackgroundImage image1 = new BackgroundImage(R.drawable.alone2);
-        BackgroundImage image2 = new BackgroundImage(R.drawable.alone1);
-        BackgroundImage image3 = new BackgroundImage(R.drawable.alone3);
-        BackgroundImage image4 = new BackgroundImage(R.drawable.alone4);
-        BackgroundImage image5 = new BackgroundImage(R.drawable.alone5);
-        BackgroundImage image6 = new BackgroundImage(R.drawable.alone6);
+        BackgroundImage image1 = new BackgroundImage(R.drawable.man1);
+        BackgroundImage image2 = new BackgroundImage(R.drawable.man2);
+        BackgroundImage image3 = new BackgroundImage(R.drawable.man3);
+        BackgroundImage image4 = new BackgroundImage(R.drawable.man4);
+        BackgroundImage image5 = new BackgroundImage(R.drawable.man5);
+        BackgroundImage image6 = new BackgroundImage(R.drawable.man6);
         BackgroundImage image7 = new BackgroundImage(R.drawable.beach1);
         BackgroundImage image8 = new BackgroundImage(R.drawable.beach2);
         BackgroundImage image9 = new BackgroundImage(R.drawable.beach3);
@@ -151,12 +146,12 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
         BackgroundImage image12 = new BackgroundImage(R.drawable.beach6);
         BackgroundImage image13 = new BackgroundImage(R.drawable.beach7);
         BackgroundImage image14 = new BackgroundImage(R.drawable.beach8);
-        BackgroundImage image15 = new BackgroundImage(R.drawable.man1);
-        BackgroundImage image16 = new BackgroundImage(R.drawable.man2);
-        BackgroundImage image17 = new BackgroundImage(R.drawable.man3);
-        BackgroundImage image18 = new BackgroundImage(R.drawable.man4);
-        BackgroundImage image19 = new BackgroundImage(R.drawable.man5);
-        BackgroundImage image20 = new BackgroundImage(R.drawable.man6);
+        BackgroundImage image15 = new BackgroundImage(R.drawable.alone1);
+        BackgroundImage image16 = new BackgroundImage(R.drawable.alone2);
+        BackgroundImage image17 = new BackgroundImage(R.drawable.alone3);
+        BackgroundImage image18 = new BackgroundImage(R.drawable.alone4);
+        BackgroundImage image19 = new BackgroundImage(R.drawable.alone5);
+        BackgroundImage image20 = new BackgroundImage(R.drawable.alone6);
         BackgroundImage image21 = new BackgroundImage(R.drawable.man7);
         BackgroundImage image22 = new BackgroundImage(R.drawable.man8);
         BackgroundImage image23 = new BackgroundImage(R.drawable.nature1);
@@ -264,11 +259,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-
-        bitmap = null;
-        selectedImagePath = null;
 
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
 

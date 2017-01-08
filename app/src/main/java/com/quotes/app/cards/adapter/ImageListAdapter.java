@@ -50,7 +50,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.View
     public void onBindViewHolder(ImageListAdapter.ViewHolder viewHolder, int position) {
         ImageView imageView = viewHolder.imageView;
         if(position!=0) {
-            BackgroundImage backgroundImage = backgroundImageList.get(position);
+            BackgroundImage backgroundImage = backgroundImageList.get(position-1);
 
             // Set item views based on the data model
             Bitmap bitmap = Util.decodeSampledBitmapFromResource(mContext.getResources(), backgroundImage.getImageId(), 100, 100);
@@ -63,7 +63,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.View
 
     @Override
     public int getItemCount() {
-        return backgroundImageList.size();
+        return backgroundImageList.size()+1;
     }
 
     // Define the method that allows the parent activity or fragment to define the listener

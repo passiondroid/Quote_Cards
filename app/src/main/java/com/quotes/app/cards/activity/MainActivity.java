@@ -73,10 +73,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addQuoteButton.setOnClickListener(this);
         fontButton.setOnClickListener(this);
         quoteTV.setOnClickListener(this);
-        SharedPreferenceUtils.setImageId(this, R.drawable.alone1);
+        SharedPreferenceUtils.setImageId(this, R.drawable.man1);
         SharedPreferenceUtils.setFont(this, 0);
         SharedPreferenceUtils.setFontSize(this, 30);
-        SharedPreferenceUtils.setTextAlignment(this, 0);
+        SharedPreferenceUtils.setTextAlignment(this, SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER);
         quoteTV.setText(getResources().getString(R.string.title_text));
         requestPermissions();
     }
@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         int alignment = SharedPreferenceUtils.getTextAlignment(this);
         setAlignment(alignment);
+
     }
 
     private void setAlignment(int alignment) {
