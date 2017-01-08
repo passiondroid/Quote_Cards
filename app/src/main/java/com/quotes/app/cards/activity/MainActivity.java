@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.quoteTV)TextView quoteTV;
     private boolean changed;
     private SaveImageTask saveImageTask;
-    String text;
+    private String text;
+    private String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,9 +308,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bitmap bitmap = params[0];
             FileOutputStream out = null;
             String timeStamp = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
+            path = Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_PICTURES+"/QuoteCards/IMG_"+timeStamp+".png";
             createDirectory();
             try {
-                out = new FileOutputStream(new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_PICTURES+"/QuoteCards/IMG_"+timeStamp+".png"));
+                out = new FileOutputStream(new File(path));
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -346,15 +348,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"You Selected Share",Toast.LENGTH_SHORT).show();
                 alertD.dismiss();
+                Intent i = new Intent(Intent.ACTION_SEND);
+                i.setType("image/*");
+                i.putExtra(Intent.EXTRA_STREAM, Uri.parse(path));
+                try {
+                    startActivity(Intent.createChooser(i, getResources().getString(R.string.app_name)));
+                } catch (android.content.ActivityNotFoundException ex) {
+
+                    ex.printStackTrace();
+                }
+
             }
         });
         viewGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"You Selected View in gallery.",Toast.LENGTH_SHORT).show();
                 alertD.dismiss();
+                Intent i=new Intent();
+                i.setAction(Intent.ACTION_VIEW);
+                i.setDataAndType(Uri.fromFile(new File(path)), "image/*");
+                startActivity(i);
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath()+ "/QuoteCards/");
+//                intent.setDataAndType(uri, "*/*");
+//                startActivity(Intent.createChooser(intent, "Open folder"));
             }
         });
         alertD.setView(view);

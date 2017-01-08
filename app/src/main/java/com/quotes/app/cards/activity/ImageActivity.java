@@ -2,8 +2,6 @@ package com.quotes.app.cards.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -15,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -32,8 +29,6 @@ import com.quotes.app.cards.utils.CustomFontsLoader;
 import com.quotes.app.cards.utils.SharedPreferenceUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -214,8 +209,8 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
         if(position == 0){
             startDialog();
         }else {
-            imageView.setImageResource(backgroundImages.get(position).getImageId());
-            SharedPreferenceUtils.setImageId(this, backgroundImages.get(position).getImageId());
+            imageView.setImageResource(backgroundImages.get(position-1).getImageId());
+            SharedPreferenceUtils.setImageId(this, backgroundImages.get(position-1).getImageId());
         }
     }
 
