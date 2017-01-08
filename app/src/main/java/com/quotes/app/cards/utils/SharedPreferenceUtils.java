@@ -110,5 +110,11 @@ public class SharedPreferenceUtils {
 		return pref.getInt(TEXT_ALIGNMENT, View.TEXT_ALIGNMENT_TEXT_START);
 	}
 
+	public static void clear(Context context){
+		SharedPreferences preferences = context.getSharedPreferences(QUOTE_CARDS, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.clear();
+		editor.commit();
+	}
 
 }
