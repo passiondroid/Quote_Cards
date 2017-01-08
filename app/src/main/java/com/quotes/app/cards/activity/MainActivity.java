@@ -329,7 +329,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
             frameLayout.destroyDrawingCache();
-            //Toast.makeText(MainActivity.this,"Image has been saved in SD Card",Toast.LENGTH_SHORT).show();
             scan();
             postSaveDialogBox();
         }

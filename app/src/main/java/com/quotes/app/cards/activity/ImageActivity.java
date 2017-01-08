@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -31,6 +32,8 @@ import com.quotes.app.cards.utils.CustomFontsLoader;
 import com.quotes.app.cards.utils.SharedPreferenceUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,6 +55,9 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
     private String selectedImagePath;
     private String fileDir;
     Uri outputFileUri=null;
+    private boolean isCroppedResult = false;
+    public static final int CROP_REQUEST_CODE = 20;
+    private static final String TAG = "ImageActivity";
 
 
     @Override
@@ -80,14 +86,15 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
     @Override
     protected void onStart() {
         super.onStart();
-        if(SharedPreferenceUtils.isImage(this)) {
-            int imageId = SharedPreferenceUtils.getSelectedImageId(this);
-            imageView.setImageResource(imageId);
-        }
-        else {
-            String imagePath=SharedPreferenceUtils.getSelectedImagePath(this);
-            Glide.with(this).load(imagePath).into(imageView);
-        }
+        //if(!isCroppedResult) {
+            if (SharedPreferenceUtils.isImage(this)) {
+                int imageId = SharedPreferenceUtils.getSelectedImageId(this);
+                imageView.setImageResource(imageId);
+            } else {
+                String imagePath = SharedPreferenceUtils.getSelectedImagePath(this);
+                Glide.with(this).load(imagePath).into(imageView);
+            }
+        //}
         int fontId = SharedPreferenceUtils.getFont(this);
         quoteTV.setTypeface(CustomFontsLoader.getTypeface(this, fontId));
 
@@ -265,39 +272,29 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
 
         if (resultCode == RESULT_OK && requestCode == CAMERA_REQUEST) {
 
-            Toast.makeText(ImageActivity.this,"Saved",Toast.LENGTH_SHORT).show();
             if(outputFileUri!=null)
             {
-                SharedPreferenceUtils.setImagePath(this,fileDir);
+                Intent intent = new Intent(this,CropActivity.class);
+                intent.putExtra("URI",outputFileUri);
+                startActivityForResult(intent,CROP_REQUEST_CODE, null);
             }
 
         } else if (resultCode == RESULT_OK && requestCode == GALLERY_PICTURE) {
             if (data != null) {
 
                 Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage, filePath,
-                        null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePath[0]);
-                selectedImagePath = c.getString(columnIndex);
-                SharedPreferenceUtils.setImagePath(this,selectedImagePath);
-                c.close();
-                /*try {
-                Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-
-                imageView.setImageURI(data.getData());
-
-                } catch (FileNotFoundException e) {
-                    // handle errors
-                } catch (IOException e) {
-                    // handle errors
-                }
-                */
+                Intent intent = new Intent(this,CropActivity.class);
+                intent.putExtra("URI",selectedImage);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("URI",selectedImage);
+                startActivityForResult(intent,CROP_REQUEST_CODE, bundle);
             } else {
                 Toast.makeText(getApplicationContext(), "Cancelled",
                         Toast.LENGTH_SHORT).show();
             }
+        } else if (resultCode == RESULT_OK && requestCode == CROP_REQUEST_CODE) {
+            String imagePath = data.getStringExtra("CROP_IMAGE_PATH");
+            SharedPreferenceUtils.setImagePath(this,imagePath);
         }
 
     }

@@ -4,4 +4,5 @@
     <string name="title_activity_image">Images</string>
     <string name="title_text">Your quote will be shown here</string>
     <string name="title_activity_font">Fonts</string>
+    <string name="title_activity_crop">Crop</string>
 </resources>

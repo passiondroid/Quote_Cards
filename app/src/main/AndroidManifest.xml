@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.quotes.app.cards">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -41,6 +41,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.quotes.app.cards.activity.MainActivity" />
         </activity>
+        <activity android:name=".activity.CropActivity"
+            android:label="@string/title_activity_font"
+            android:parentActivityName=".activity.ImageActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
