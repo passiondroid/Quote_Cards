@@ -40,7 +40,9 @@
                 android:id="@+id/imageView"
                 android:src="@drawable/alone1"
                 android:scaleType="fitXY"/>
-
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/quoteTV"
                 android:layout_width="match_parent"
@@ -52,7 +54,15 @@
                 android:text="@string/title_text"
                 android:background="@drawable/rectangle_border"
                 />
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit_color"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@+id/quoteTV"
+                android:padding="10dp"/>
+    </RelativeLayout>
         </FrameLayout>
 
         <LinearLayout
