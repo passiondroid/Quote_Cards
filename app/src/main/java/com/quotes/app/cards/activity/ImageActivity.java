@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.quotes.app.cards.R;
 import com.quotes.app.cards.adapter.ImageListAdapter;
 import com.quotes.app.cards.model.BackgroundImage;
@@ -43,6 +45,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
     List<BackgroundImage> backgroundImages;
     @Bind(R.id.imageView)
     ImageView imageView;
+    private AdView mAdView;
 
     @Bind(R.id.quoteTV)
     TextView quoteTV;
@@ -59,6 +62,7 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ButterKnife.bind(this);
+        loadAd();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         generateBackgroundImageList();
@@ -100,6 +104,13 @@ public class ImageActivity extends AppCompatActivity implements ImageListAdapter
 
         int alignment = SharedPreferenceUtils.getTextAlignment(this);
         setAlignment(alignment);
+    }
+
+    private void loadAd() {
+        mAdView = (AdView) findViewById(R.id.adView);
+        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("67324194FAF655F4E72D8C3BC700E5DE").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("67324194FAF655F4E72D8C3BC700E5DE").build();
+        mAdView.loadAd(adRequest);
     }
 
     private void setAlignment(int alignment) {
