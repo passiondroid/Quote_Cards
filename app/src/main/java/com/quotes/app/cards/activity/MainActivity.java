@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.quotes.app.cards.R;
 import com.quotes.app.cards.utils.CustomFontsLoader;
 import com.quotes.app.cards.utils.RuntimePermissionHelper;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SaveImageTask saveImageTask;
     private String text;
     private String path;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +82,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferenceUtils.setFontSize(this, 30);
         SharedPreferenceUtils.setTextAlignment(this, SharedPreferenceUtils.TEXT_ALIGNMENT_CENTER);
         quoteTV.setText(getResources().getString(R.string.title_text));
+        loadAd();
         requestPermissions();
+    }
+
+    private void loadAd() {
+        mAdView = (AdView) findViewById(R.id.adView);
+        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("67324194FAF655F4E72D8C3BC700E5DE").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("67324194FAF655F4E72D8C3BC700E5DE").build();
+        mAdView.loadAd(adRequest);
     }
 
     private void requestPermissions() {

@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.pavelsikun.vintagechroma.ChromaDialog;
 import com.pavelsikun.vintagechroma.IndicatorMode;
 import com.pavelsikun.vintagechroma.OnColorSelectedListener;
@@ -42,6 +44,7 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
     @Bind(R.id.fontLayout) View fontLayoutView;
     private int size;
     public final int color = -1506326529;
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
+        loadAd();
 
         String text = getIntent().getStringExtra("text");
         quoteTV.setText(text);
@@ -100,6 +104,13 @@ public class FontActivity extends AppCompatActivity implements FontListAdapter.O
         setAlignment(alignment);
 
         size = SharedPreferenceUtils.getFontSize(this);
+    }
+
+    private void loadAd() {
+        mAdView = (AdView) findViewById(R.id.adView);
+        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("67324194FAF655F4E72D8C3BC700E5DE").build();
+        AdRequest adRequest = new AdRequest.Builder().addTestDevice("67324194FAF655F4E72D8C3BC700E5DE").build();
+        mAdView.loadAd(adRequest);
     }
 
     private void setAlignment(int alignment) {
