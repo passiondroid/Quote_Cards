@@ -8,6 +8,17 @@ An Android App to add quotes over images.
 
 ![alt text](https://s30.postimg.org/54km4rze9/Quote_Cards.png)
 
+## Getting Started
+
+This project uses the Gradle build system.  To build this project, clone and use 
+"Import Project" in Android Studio. Set up firebase ads using this tutorial - https://firebase.google.com/docs/admob/admob-firebase and add the ad unit in strings.xml under banner_ad_unit_id
+
+[![Screen Shot 2017-01-09 at 4.23.13 PM.png](https://s24.postimg.org/ord5o199x/Screen_Shot_2017_01_09_at_4_23_13_PM.png)](https://postimg.org/image/mmssmy7n5/)
+
+Make sure that you have added *google-services.json* while integrating Firebase ads and placed it inside app directory.
+After all the above steps are done your good to go :smile:
+
+
 ## Contributing
 
 Please fork this repository and contribute back using pull requests.
