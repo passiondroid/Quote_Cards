@@ -50,7 +50,10 @@
                 android:textColor="@android:color/white"
                 android:layout_margin="5dp"
                 android:textSize="30sp"
-                android:padding="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="40dp"
                 android:text="@string/title_text"
                 android:background="@drawable/rectangle_border"
                 />
