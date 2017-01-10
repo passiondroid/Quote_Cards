@@ -78,11 +78,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_edit_color"
+                android:src="@drawable/ic_palette_white_48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignBottom="@+id/quoteTV"
-                android:padding="10dp"/>
+                android:padding="6dp"/>
     </RelativeLayout>
         </FrameLayout>
 
