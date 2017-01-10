@@ -43,8 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:visibility="invisible"
                 ads:adSize="BANNER"
-                ads:adUnitId="@string/bottom_banner_ad_unit_id">
+                ads:adUnitId="@string/banner_ad_unit_id">
             </com.google.android.gms.ads.AdView>
             </LinearLayout>
 

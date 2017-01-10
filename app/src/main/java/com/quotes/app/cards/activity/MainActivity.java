@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String text;
     private String path;
     private AdView mAdView;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadAd() {
         mAdView = (AdView) findViewById(R.id.adView);
-        //AdRequest adRequest = new AdRequest.Builder().addTestDevice("67324194FAF655F4E72D8C3BC700E5DE").build();
         AdRequest adRequest = new AdRequest.Builder().addTestDevice("67324194FAF655F4E72D8C3BC700E5DE").build();
         mAdView.loadAd(adRequest);
     }
@@ -233,17 +234,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                //quoteText.setVisibility(View.GONE);
                 frameLayout.setDrawingCacheEnabled(true);
                 frameLayout.buildDrawingCache();
                 Bitmap bitmap = frameLayout.getDrawingCache();
-//                if(null != saveImageTask && saveImageTask.getStatus().equals(AsyncTask.Status.FINISHED)) {
-//                    saveImageTask.execute(bitmap);
-//                }else {
-                    saveImageTask = new SaveImageTask();
-                    saveImageTask.execute(bitmap);
-                //}
-
+                saveImageTask = new SaveImageTask();
+                saveImageTask.execute(bitmap);
                 return true;
 
             default:
@@ -325,14 +320,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 out = new FileOutputStream(new File(path));
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); 
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e(TAG, "doInBackground: ",e );
             } finally {
                 try {
                     if (out != null) {
                         out.close();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.e(TAG, "doInBackground: ", e);
                 }
             }
             return null;
@@ -366,8 +361,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     startActivity(Intent.createChooser(i, getResources().getString(R.string.app_name)));
                 } catch (android.content.ActivityNotFoundException ex) {
-
-                    ex.printStackTrace();
+                    Log.e(TAG, "onClick: ",ex );
                 }
 
             }
@@ -380,10 +374,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 i.setAction(Intent.ACTION_VIEW);
                 i.setDataAndType(Uri.fromFile(new File(path)), "image/*");
                 startActivity(i);
-//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                Uri uri = Uri.parse(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getPath()+ "/QuoteCards/");
-//                intent.setDataAndType(uri, "*/*");
-//                startActivity(Intent.createChooser(intent, "Open folder"));
             }
         });
         alertD.setView(view);
