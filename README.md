@@ -5,8 +5,7 @@
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 An Android App to add quotes over images.
-
-![alt text](https://s30.postimg.org/54km4rze9/Quote_Cards.png)
+[![Screen Shot 2017-01-12 at 4.31.58 PM.png](https://s23.postimg.org/bvezpabwb/Screen_Shot_2017_01_12_at_4_31_58_PM.png)](https://postimg.org/image/678oye7jr/)
 
 ## Getting Started
 
