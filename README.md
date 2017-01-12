@@ -18,7 +18,7 @@ This project uses the Gradle build system.  To build this project, clone and use
 Make sure that you have added *google-services.json* while integrating Firebase ads and placed it inside app directory.
 After all the above steps are done your good to go :smile:
 
-<a href='https://play.google.com/store/apps/details?id=com.quotes.app.cards&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="180" width="420"/></a>
+<a href='https://play.google.com/store/apps/details?id=com.quotes.app.cards&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="160" width="420"/></a>
 
 
 ## Contributing
