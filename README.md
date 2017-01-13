@@ -4,7 +4,7 @@
 [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=586b83ec05b560010042c840&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/586b83ec05b560010042c840/build/latest?branch=master)
 [![License](http://img.shields.io/:license-apache-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
-An Android App to add quotes over images.
+An Android App to add quotes over images
 [![Screen Shot 2017-01-12 at 4.31.58 PM.png](https://s23.postimg.org/bvezpabwb/Screen_Shot_2017_01_12_at_4_31_58_PM.png)](https://postimg.org/image/678oye7jr/)
 
 ## Getting Started
