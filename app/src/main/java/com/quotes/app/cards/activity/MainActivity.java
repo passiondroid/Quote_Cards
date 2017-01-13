@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void showChangeLangDialog() {
+        mAdView.setVisibility(View.INVISIBLE);
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         LayoutInflater inflater = MainActivity.this.getLayoutInflater();
         View view=inflater.inflate(R.layout.add_quote_dialog, null);
@@ -189,16 +190,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String quote= quoteText.getText().toString().trim();
                         if(quote.length()<1){
                             Toast.makeText(MainActivity.this,"No quote entered",Toast.LENGTH_SHORT).show();
-                            }
+                            mAdView.setVisibility(View.VISIBLE);
+                        }
                         else{
                             quoteTV.setText(quote);
                             changed=true;
+                            mAdView.setVisibility(View.VISIBLE);
                         }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        mAdView.setVisibility(View.VISIBLE);
                     }
                 });
         builder.create().show();
